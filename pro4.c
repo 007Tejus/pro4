@@ -1,86 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-	#include<stdio.h>
-	char stack[50];
-	int top= -1;
-	
-	
-	void push(char ch)
-	{ 
-		stack[++top]=ch;
-	}
-	
-	
-	char pop()
-	{ 
-		return(stack[top--]);
-	}
-	
-	
-	int prcd(char ch)
-	{ 
-		int p;
-		switch(ch)
-		{ 
-		case '$':
-		case '^': p=3;
-			break;
-		case '*':
-		case '/': p=2;
-			break;
-		case '+':
-		case '-': p=1;
-			break;
-		case '(': p=-1;
-			break;
-	}
-	return p;
-	}
+void insertion_sort(long a[], int n) {
+    int i, j;
+    long v = 0;
+    for (i = 1; i < n; i++) {
+        v = a[i];
+        j = i - 1;
+        while (j >= 0 && a[j] > v) {
+            a[j + 1] = a[j];
+            j = j - 1;
+        }
+        a[j + 1] = v;
+    }
+    printf("sorted numbers are:\n");
+    for (i = 0; i < n; i++)
+        printf("%ld\n", a[i]);
+}
 
-	
-	void conversion(char infix[],char postfix[])
-	{
-		int i=0,p=0;
-		char ch;
-		while((ch=infix[i])!='\0')
-		{
-			switch(ch)
-			{
-			default : postfix[p++]=ch;
-				break;
-			case '(': push(ch);
-				break;
-			case ')': while(top!= -1&& stack[top]!='(')
-				postfix[p++]=pop();
-				pop(); 
-				break;
-			case '*':
-			case '/':
-			case '+':
-			case '-': while(top!= -1 && prcd(stack[top]) >= prcd(ch))
-					postfix[p++]=pop();
-				push(ch);
-				break;
-			case '$':
-			case '^': 
-			
-				while(top!= -1 && prcd(stack[top]) > prcd(ch))
-					postfix[p++]=pop();
-				push(ch);
-				break;
-			}
-		i++;
-		} 
-		while (top!= -1)
-		postfix[p++] = pop();
-		postfix[p]='\0';
-		}
-
-	int main()
-	{ 
-		char infix[50],postfix[50];
-		printf("enter valid infix expression\n");
-		scanf("%s", infix);
-		conversion(infix, postfix);
-		printf("postfix expression= %s\n", postfix);
-		return 0;
-	}
+int main() {
+    clock_t starttime, endtime;
+    starttime = clock();
+    double clk;
+    int i, n;
+    long a[10];
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+        a[i] = 9000000000 + (rand() % 99999999) + 1;
+    printf("\nphone numbers are:\n");
+    for (i = 0; i < n; i++)
+        printf("%ld\n", a[i]);
+    insertion_sort(a, n);
+    endtime = clock();
+    clk = (double)(endtime - starttime) / CLOCKS_PER_SEC;
+    printf("\nTHE RUN TIME IS :%f\n", clk);
+    return 0;
+}
